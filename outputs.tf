@@ -27,3 +27,8 @@ output "resource_id" {
   description = "The RDS Resource ID of this instance"
   value       = "${aws_db_instance.postgres.resource_id}"
 }
+
+output "route53_fqdn" {
+  description = "The Route 53 FQDN"
+  value       = "${aws_route53_record.postgres.fqdn}"
+}

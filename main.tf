@@ -1,5 +1,7 @@
 locals {
+  # The db identifier is in this format <service_name>-postgres-<16_characters_random_suffix>
   identifier = "${var.service_name}-postgres-${random_id.suffix.hex}"
+
   final_snapshot_identifier = "${local.identifier}-final-snapshot"
 }
 
@@ -54,10 +56,10 @@ resource "aws_db_instance" "postgres" {
   }
 }
 
-# resource "aws_route53_record" "postgres" {
-#   zone_id = "${data.aws_route53_zone.private_zone.zone_id}"
-#   name    = "${aws_db_instance.postgres.identifier}"
-#   records = ["${aws_db_instance.postgres.address}"]
-#   type    = "CNAME"
-#   ttl     = "300"
-# }
+resource "aws_route53_record" "postgres" {
+  zone_id = "${var.route53_zone_id}"
+  name    = "${aws_db_instance.postgres.identifier}"
+  records = ["${aws_db_instance.postgres.address}"]
+  type    = "CNAME"
+  ttl     = "300"
+}

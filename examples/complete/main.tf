@@ -35,4 +35,7 @@ module "postgres" {
 
   # Change to valid monitoring role arn
   monitoring_role_arn = "arn:aws:iam::517530806209:role/rds-monitoring-role"
+
+  # Change to valid route 53 zone id
+  route53_zone_id = "Z32OEBZ2VZHSJZ"
 }

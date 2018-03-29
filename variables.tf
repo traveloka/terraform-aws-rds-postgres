@@ -126,3 +126,7 @@ variable "monitoring_interval" {
 variable "monitoring_role_arn" {
   description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs"
 }
+
+variable "route53_zone_id" {
+  description = "The Route 53 zone id to create the record set"
+}
