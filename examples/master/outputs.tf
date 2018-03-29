@@ -28,6 +28,11 @@ output "resource_id" {
   value       = "${module.postgres.resource_id}"
 }
 
+output "availability_zone" {
+  description = "The availability zone of the instance"
+  value       = "${module.postgres.availability_zone}"
+}
+
 output "route53_fqdn" {
   description = "The Route 53 FQDN"
   value       = "${module.postgres.route53_fqdn}"

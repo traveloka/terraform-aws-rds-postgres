@@ -15,7 +15,7 @@ module "postgres" {
 
   allocated_storage = 1024
 
-  multi_az = false
+  multi_az = true
 
   # Change to valid security group id
   vpc_security_group_ids = [
