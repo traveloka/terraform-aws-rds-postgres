@@ -32,6 +32,11 @@ variable "password" {
   default     = "changemeplease"
 }
 
+variable "name" {
+  description = "The name of the database to create when the DB instance is created"
+  default     = "postgres"
+}
+
 variable "port" {
   description = "The port on which the DB accepts connections"
   default     = 5432
@@ -54,6 +59,11 @@ variable "iops" {
 variable "storage_encrypted" {
   description = "Specifies whether the DB instance is encrypted"
   default     = true
+}
+
+variable "kms_key_id" {
+  description = "Specifies a custom KMS key to be used to encrypt"
+  default     = ""
 }
 
 variable "vpc_security_group_ids" {
@@ -104,7 +114,7 @@ variable "backup_retention_period" {
 }
 
 variable "backup_window" {
-  description = "The daily time range (in UTC) during which automated backups are created if they are enabled. Must not overlap with maintenance_window"
+  description = "The daily time range (in UTC) during which automated backups are created if they are enabled. Before and not overlap with maintenance_window"
   default     = ""
 }
 

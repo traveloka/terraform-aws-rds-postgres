@@ -17,20 +17,21 @@ resource "aws_db_instance" "postgres" {
   instance_class = "${var.instance_class}"
   username       = "${var.username}"
   password       = "${var.password}"
+  name           = "${var.name}"
   port           = "${var.port}"
 
   allocated_storage = "${var.allocated_storage}"
   storage_type      = "${var.storage_type}"
   iops              = "${var.iops}"
   storage_encrypted = "${var.storage_encrypted}"
+  kms_key_id        = "${var.kms_key_id}"
 
   vpc_security_group_ids = ["${var.vpc_security_group_ids}"]
+  multi_az               = "${var.multi_az}"
+  publicly_accessible    = "${var.publicly_accessible}"
 
   db_subnet_group_name = "${var.db_subnet_group_name}"
   parameter_group_name = "${var.parameter_group_name}"
-
-  multi_az            = "${var.multi_az}"
-  publicly_accessible = "${var.publicly_accessible}"
 
   allow_major_version_upgrade = "${var.allow_major_version_upgrade}"
   auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
