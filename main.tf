@@ -17,7 +17,6 @@ resource "aws_db_instance" "postgres" {
   instance_class = "${var.instance_class}"
   username       = "${var.username}"
   password       = "${var.password}"
-  name           = "${var.name}"
   port           = "${var.port}"
 
   allocated_storage = "${var.allocated_storage}"
@@ -55,12 +54,4 @@ resource "aws_db_instance" "postgres" {
     Environment   = "${var.environment}"
     Description   = "${var.description}"
   }
-}
-
-resource "aws_route53_record" "postgres" {
-  zone_id = "${var.route53_zone_id}"
-  name    = "${aws_db_instance.postgres.identifier}"
-  records = ["${aws_db_instance.postgres.address}"]
-  type    = "CNAME"
-  ttl     = "300"
 }
