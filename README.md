@@ -1,6 +1,6 @@
 terraform-aws-rds-postgres
 ==========================
-Terraform module which creates an AWS RDS Postgres and Route 53 record set.
+Terraform module which creates an AWS RDS Postgres.
 
 Requirements
 ------------
@@ -20,10 +20,10 @@ module "postgres" {
   source  = "github.com/traveloka/terraform-aws-rds-postgres"
   version = "0.1.0"
 
-  product_domain = "bei"
-  service_name   = "beitest"
-  environment    = "special"
-  description    = "Testing purpose"
+  product_domain = "txt"
+  service_name   = "txtinv"
+  environment    = "production"
+  description    = "Postgres to store Transport Extranet (txt) inventory data"
 
   instance_class = "db.t2.small"
   engine_version = "9.6.6"
@@ -37,7 +37,7 @@ module "postgres" {
     "sg-50036436"
   ]
 
-  # Change to valid db subnet group nam
+  # Change to valid db subnet group name
   db_subnet_group_name = "tvlk-dev-rds-subnet-group"
 
   # Change to valid parameter group name
