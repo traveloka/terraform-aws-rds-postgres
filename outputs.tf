@@ -32,8 +32,3 @@ output "availability_zone" {
   description = "The availability zone of the instance"
   value       = "${aws_db_instance.postgres.availability_zone}"
 }
-
-output "route53_fqdn" {
-  description = "The Route 53 FQDN"
-  value       = "${aws_route53_record.postgres.fqdn}"
-}

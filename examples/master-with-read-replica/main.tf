@@ -42,7 +42,7 @@ module "master" {
 }
 
 module "read_replica" {
-  source = "../../modules/read-replica"
+  source = "../../"
 
   product_domain = "bei"
   service_name   = "beitest"

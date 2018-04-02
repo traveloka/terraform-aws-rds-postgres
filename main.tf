@@ -1,16 +1,25 @@
 locals {
-  # The db identifier is in this format <service_name>-postgres-<16_characters_random_suffix>
-  identifier = "${var.service_name}-postgres-${random_id.suffix.hex}"
+  max_byte_length = 8
+
+  db_identifier_max_length = 63
+  db_identifier_prefix     = "${var.service_name}-postgres-"
+
+  db_identifier_suffix_max_byte_length = "${(local.db_identifier_max_length - length(db_identifier_prefix)) / 2}"
+  db_identifier_suffix_byte_length     - "${min(local.max_byte_length, local.db_identifier_suffix_max_byte_length)}"
 
   final_snapshot_identifier = "${local.identifier}-final-snapshot"
 }
 
-resource "random_id" "suffix" {
-  byte_length = 8
+resource "random_id" "db_identifier" {
+  prefix      = "${local.db_identifier_prefix}"
+  byte_length = "${local.db_identifier_suffix_byte_length}"
 }
 
-resource "aws_db_instance" "postgres" {
-  identifier     = "${local.identifier}"
+resource "aws_db_instance" "this" {
+  identifier = "${random_id.db_identifier.hex}"
+
+  # Indicates that this instance is a read replica
+  replicate_source_db = "${var.replicate_source_db}"
 
   engine         = "postgres"
   engine_version = "${var.engine_version}"
@@ -27,7 +36,7 @@ resource "aws_db_instance" "postgres" {
 
   vpc_security_group_ids = ["${var.vpc_security_group_ids}"]
   multi_az               = "${var.multi_az}"
-  publicly_accessible    = "${var.publicly_accessible}"
+  publicly_accessible    = false
 
   db_subnet_group_name = "${var.db_subnet_group_name}"
   parameter_group_name = "${var.parameter_group_name}"
@@ -37,8 +46,8 @@ resource "aws_db_instance" "postgres" {
   apply_immediately           = "${var.apply_immediately}"
   maintenance_window          = "${var.maintenance_window}"
 
-  backup_retention_period   = "${var.backup_retention_period}"
-  backup_window             = "${var.backup_window}"
+  backup_retention_period = "${var.backup_retention_period}"
+  backup_window           = "${var.backup_window}"
 
   skip_final_snapshot       = "${var.skip_final_snapshot}"
   final_snapshot_identifier = "${local.final_snapshot_identifier}"
@@ -53,5 +62,6 @@ resource "aws_db_instance" "postgres" {
     ProductDomain = "${var.product_domain}"
     Environment   = "${var.environment}"
     Description   = "${var.description}"
+    ManagedBy     = "Terraform"
   }
 }

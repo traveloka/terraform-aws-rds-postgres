@@ -18,6 +18,12 @@ variable "description" {
   description = "The description of this RDS instance"
 }
 
+variable "replicate_source_db" {
+  type        = "string"
+  description = "The source db of read replica instance"
+  default     = ""
+}
+
 variable "engine_version" {
   type        = "string"
   description = "The postgres engine version"
@@ -48,7 +54,8 @@ variable "port" {
 
 variable "allocated_storage" {
   type        = "string"
-  description = "The allocated storage in gigabytes"
+  description = "The allocated storage in gigabytes. Ignore this if creating read replica"
+  default     = ""
 }
 
 variable "storage_type" {
@@ -83,6 +90,7 @@ variable "vpc_security_group_ids" {
 variable "db_subnet_group_name" {
   type        = "string"
   description = "Name of DB subnet group"
+  default     = ""
 }
 
 variable "parameter_group_name" {
@@ -94,12 +102,6 @@ variable "multi_az" {
   type        = "string"
   description = "Specifies if the RDS instance is multi-AZ"
   default     = true
-}
-
-variable "publicly_accessible" {
-  type        = "string"
-  description = "Specifies if the RDS instance is publicly accessible"
-  default     = false
 }
 
 variable "allow_major_version_upgrade" {
