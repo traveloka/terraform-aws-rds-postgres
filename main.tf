@@ -4,10 +4,10 @@ locals {
   db_identifier_max_length = 63
   db_identifier_prefix     = "${var.service_name}-postgres-"
 
-  db_identifier_suffix_max_byte_length = "${(local.db_identifier_max_length - length(db_identifier_prefix)) / 2}"
-  db_identifier_suffix_byte_length     - "${min(local.max_byte_length, local.db_identifier_suffix_max_byte_length)}"
+  db_identifier_suffix_max_byte_length = "${(local.db_identifier_max_length - length(local.db_identifier_prefix)) / 2}"
+  db_identifier_suffix_byte_length     = "${min(local.max_byte_length, local.db_identifier_suffix_max_byte_length)}"
 
-  final_snapshot_identifier = "${local.identifier}-final-snapshot"
+  final_snapshot_identifier = "${random_id.db_identifier.hex}-final-snapshot"
 }
 
 resource "random_id" "db_identifier" {
@@ -57,7 +57,7 @@ resource "aws_db_instance" "this" {
   monitoring_role_arn = "${var.monitoring_role_arn}"
 
   tags {
-    Name          = "${local.identifier}"
+    Name          = "${random_id.db_identifier.hex}"
     Service       = "${var.service_name}"
     ProductDomain = "${var.product_domain}"
     Environment   = "${var.environment}"

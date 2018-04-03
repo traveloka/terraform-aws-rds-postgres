@@ -27,6 +27,7 @@ variable "replicate_source_db" {
 variable "engine_version" {
   type        = "string"
   description = "The postgres engine version"
+  default     = ""
 }
 
 variable "instance_class" {
@@ -55,7 +56,7 @@ variable "port" {
 variable "allocated_storage" {
   type        = "string"
   description = "The allocated storage in gigabytes. Ignore this if creating read replica"
-  default     = ""
+  default     = 0
 }
 
 variable "storage_type" {
@@ -96,6 +97,12 @@ variable "db_subnet_group_name" {
 variable "parameter_group_name" {
   type        = "string"
   description = "Name of the DB parameter group to associate"
+}
+
+variable "availability_zone" {
+  type        = "string"
+  description = "The AZ for the RDS instance. It is recommended to only use this when creating a read replica instance"
+  default     = ""
 }
 
 variable "multi_az" {

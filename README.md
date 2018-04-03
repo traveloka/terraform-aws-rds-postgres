@@ -8,8 +8,7 @@ Requirements
 - An existing VPC
 - An existing DB subnet group
 - An existing Postgres parameter group
-- An existing Enhanced Monitoring role
-- An existing Route 53 hosted zone
+- An existing RDS Enhanced Monitoring role
 - Existing DB security groups
 
 Usage
