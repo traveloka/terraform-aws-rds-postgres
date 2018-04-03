@@ -11,6 +11,56 @@ Requirements
 - An existing RDS Enhanced Monitoring role
 - Existing DB security groups
 
+Read Replica
+------------
+
+If `replicate_source_db` parameter is defined, it indicates that the instance is meant to be a read replica.
+
+Due to the inflexibility of Terraform module, please make sure that `allocated_storage` is always identical to master's.
+
+Some default values are changed for read replica instance:
+- `multi_az = false`
+  Postgres read replica cannot be in multi AZ.
+
+- `backup_retention_period = 0`
+  Postgres read replica does not support automated backup.
+
+- `skip_final_snapshot = true`
+  When deleting a read replica, a final snapshot cannot be created.
+
+- `copy_tags_to_snapshot = false`
+  When deleting a read replica, a final snapshot is not created.
+
+### How to promote a read replica?
+
+These steps need to be done in sequence:
+1. Remove parameter `replicate_source_db`
+   This is to indicate that the instance is meant to be a master instance.
+
+2. Add parameter `backup_retention_period = 0`
+   We need to explicitly disable automated backup for now, otherwise Terraform will complain that a read replica does not support automated backup.
+
+3. Add parameter `multi_az = false`
+   We need to explicitly set multi AZ to false for now, otherwise Terraform will complain that a read replica instance cannot be in multi AZ.
+
+3. Apply the configuration and wait for it to be successfully promoted to master
+
+4. Remove parameter `availability_zone`
+   We are using `multi_az` parameter for master instance.
+
+6. Modify parameter `multi_az`
+   This is to enable multi AZ. Either set it explicitly or leave as default.
+
+7. Modify parameter `backup_retention_period`
+   This is to enable automated backup. Either set it explicitly or leave as default.
+
+8. Add parameter `backup_window`
+   Either set it explicitly or leave as default.
+
+9. Modify other parameters as you would to a master instance
+
+10. Apply the configuration again
+
 Usage
 -----
 

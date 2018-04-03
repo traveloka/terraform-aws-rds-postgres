@@ -55,8 +55,7 @@ variable "port" {
 
 variable "allocated_storage" {
   type        = "string"
-  description = "The allocated storage in gigabytes. Ignore this if creating read replica"
-  default     = 0
+  description = "The allocated storage in gigabytes. For read replica, set the same value as master's"
 }
 
 variable "storage_type" {

@@ -8,6 +8,13 @@ locals {
   db_identifier_suffix_byte_length     = "${min(local.max_byte_length, local.db_identifier_suffix_max_byte_length)}"
 
   final_snapshot_identifier = "${random_id.db_identifier.hex}-final-snapshot"
+
+  # Change default values for read replica instance
+  is_read_replica         = "${var.replicate_source_db == "" ? false : true}"
+  multi_az                = "${local.is_read_replica ? false : var.multi_az}"
+  backup_retention_period = "${local.is_read_replica ? 0 : var.backup_retention_period}"
+  skip_final_snapshot     = "${local.is_read_replica ? true : var.skip_final_snapshot}"
+  copy_tags_to_snapshot   = "${local.is_read_replica ? false : var.copy_tags_to_snapshot}"
 }
 
 resource "random_id" "db_identifier" {
@@ -35,7 +42,7 @@ resource "aws_db_instance" "this" {
   kms_key_id        = "${var.kms_key_id}"
 
   vpc_security_group_ids = ["${var.vpc_security_group_ids}"]
-  multi_az               = "${var.multi_az}"
+  multi_az               = "${local.multi_az}"
   publicly_accessible    = false
 
   db_subnet_group_name = "${var.db_subnet_group_name}"
@@ -46,12 +53,12 @@ resource "aws_db_instance" "this" {
   apply_immediately           = "${var.apply_immediately}"
   maintenance_window          = "${var.maintenance_window}"
 
-  backup_retention_period = "${var.backup_retention_period}"
+  backup_retention_period = "${local.backup_retention_period}"
   backup_window           = "${var.backup_window}"
 
-  skip_final_snapshot       = "${var.skip_final_snapshot}"
+  skip_final_snapshot       = "${local.skip_final_snapshot}"
   final_snapshot_identifier = "${local.final_snapshot_identifier}"
-  copy_tags_to_snapshot     = "${var.copy_tags_to_snapshot}"
+  copy_tags_to_snapshot     = "${local.copy_tags_to_snapshot}"
 
   monitoring_interval = "${var.monitoring_interval}"
   monitoring_role_arn = "${var.monitoring_role_arn}"
