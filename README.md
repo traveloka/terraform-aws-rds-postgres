@@ -16,9 +16,13 @@ Read Replica
 
 If `replicate_source_db` parameter is defined, it indicates that the instance is meant to be a read replica.
 
-Due to the inflexibility of Terraform module, please make sure that these parameters are always the same as the master's:
+These parameters will be inherited from the master's in the first creation stage:
 1. allocated_storage
-2. parameter_group
+2. maintenance_window
+3. parameter_group_name 
+4. vpc_security_group_ids
+
+To apply different values for the parameters above, you have to re-apply the configuration after the first creation is finished.
 
 Some default values are changed for read replica instance:
 - `multi_az = false`
@@ -45,7 +49,7 @@ These steps need to be done in sequence:
 3. Add parameter `multi_az = false`
    We need to explicitly set multi AZ to false for now, otherwise Terraform will complain that a read replica instance cannot be in multi AZ.
 
-3. Apply the configuration and wait for it to be successfully promoted to master
+3. Apply the configuration and wait for db instance to be successfully promoted to master
 
 4. Remove parameter `availability_zone`
    We are using `multi_az` parameter for master instance.

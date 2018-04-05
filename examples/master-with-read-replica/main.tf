@@ -14,11 +14,11 @@ module "txtbook_postgres_1" {
 
   instance_class    = "db.t2.small"
   engine_version    = "9.6.6"
-  allocated_storage = 25
+  allocated_storage = 20
 
   # Change to valid security group id
   vpc_security_group_ids = [
-    "sg-50036436"
+    "sg-50036436",
   ]
 
   # Change to valid db subnet group nam
@@ -45,21 +45,24 @@ module "txtbook_postgres_2" {
   environment    = "production"
   description    = "Read replica of txtbook postgres for analytic purpose"
 
-  instance_class    = "db.t2.small"
-  allocated_storage = 25
-
+  # Indicates that this is a read replica
   replicate_source_db = "${module.txtbook_postgres_1.id}"
+
+  instance_class = "db.t2.small"
+
+  # Make sure that this is always identical to the master's
+  allocated_storage = 20
 
   # Set the read replica AZ to be the master's AZ
   availability_zone = "${module.txtbook_postgres_1.availability_zone}"
 
   # Change to valid security group id
   vpc_security_group_ids = [
-    "sg-50036436"
+    "sg-cb8165ac",
   ]
 
   # Change to valid parameter group name
-  parameter_group_name = "default.postgres9.6"
+  parameter_group_name = "acs-shared-postgres"
 
   maintenance_window = "Mon:21:00-Mon:23:00"
 
