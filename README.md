@@ -16,7 +16,9 @@ Read Replica
 
 If `replicate_source_db` parameter is defined, it indicates that the instance is meant to be a read replica.
 
-Due to the inflexibility of Terraform module, please make sure that `allocated_storage` is always identical to master's.
+Due to the inflexibility of Terraform module, please make sure that these parameters are always the same as the master's:
+1. allocated_storage
+2. parameter_group
 
 Some default values are changed for read replica instance:
 - `multi_az = false`
