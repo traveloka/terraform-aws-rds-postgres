@@ -32,3 +32,8 @@ output "availability_zone" {
   description = "The availability zone of the instance"
   value       = "${module.txtbook_postgres.availability_zone}"
 }
+
+output "password" {
+  description = "The password for the DB"
+  value       = "${module.txtbook_postgres.password}"
+}

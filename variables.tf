@@ -41,12 +41,6 @@ variable "username" {
   default     = "postgres"
 }
 
-variable "password" {
-  type        = "string"
-  description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file"
-  default     = "changemeplease"
-}
-
 variable "port" {
   type        = "string"
   description = "The port on which the DB accepts connections"

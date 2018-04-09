@@ -11,6 +11,8 @@ locals {
 
   # Change default values for read replica instance
   is_read_replica         = "${var.replicate_source_db == "" ? false : true}"
+  username                = "${local.is_read_replica ? "" : var.username}"
+  password                = "${local.is_read_replica ? "" : random_id.password.hex}"
   multi_az                = "${local.is_read_replica ? false : var.multi_az}"
   backup_retention_period = "${local.is_read_replica ? 0 : var.backup_retention_period}"
   skip_final_snapshot     = "${local.is_read_replica ? true : var.skip_final_snapshot}"
@@ -22,7 +24,19 @@ resource "random_id" "db_identifier" {
   byte_length = "${local.db_identifier_suffix_byte_length}"
 }
 
+# Generate a random 16 characters password
+resource "random_id" "password" {
+  byte_length = 8
+}
+
 resource "aws_db_instance" "this" {
+  # Ignore changes on password as it is expected to be changed outside of Terraform  
+  lifecycle {
+    ignore_changes = [
+      "password",
+    ]
+  }
+
   identifier = "${random_id.db_identifier.hex}"
 
   # Indicates that this instance is a read replica
@@ -32,7 +46,7 @@ resource "aws_db_instance" "this" {
   engine_version = "${var.engine_version}"
   instance_class = "${var.instance_class}"
   username       = "${var.username}"
-  password       = "${var.password}"
+  password       = "${local.password}"
   port           = "${var.port}"
 
   allocated_storage = "${var.allocated_storage}"
@@ -63,7 +77,7 @@ resource "aws_db_instance" "this" {
   monitoring_interval = "${var.monitoring_interval}"
   monitoring_role_arn = "${var.monitoring_role_arn}"
 
-  tags {
+  tags = {
     Name          = "${random_id.db_identifier.hex}"
     Service       = "${var.service_name}"
     ProductDomain = "${var.product_domain}"

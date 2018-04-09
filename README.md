@@ -1,5 +1,6 @@
 terraform-aws-rds-postgres
 ==========================
+
 Terraform module which creates an AWS RDS Postgres.
 
 Requirements
@@ -10,6 +11,13 @@ Requirements
 - An existing Postgres parameter group
 - An existing RDS Enhanced Monitoring role
 - Existing DB security groups
+
+Password for Master DB
+----------------------
+
+- The module will generate a random 16 characters long password.
+- The module will output this password.
+- Make sure that you change the password after the provisioning is successfully completed.
 
 Read Replica
 ------------
@@ -72,8 +80,7 @@ Usage
 
 ```hcl
 module "postgres" {
-  source  = "github.com/traveloka/terraform-aws-rds-postgres"
-  version = "0.1.0"
+  source  = "github.com/traveloka/terraform-aws-rds-postgres?ref=0.1.0"
 
   product_domain = "txt"
   service_name   = "txtinv"
@@ -83,7 +90,7 @@ module "postgres" {
   instance_class = "db.t2.small"
   engine_version = "9.6.6"
 
-  allocated_storage = 1024
+  allocated_storage = 100
 
   multi_az = true
 

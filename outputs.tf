@@ -32,3 +32,8 @@ output "availability_zone" {
   description = "The availability zone of the instance"
   value       = "${aws_db_instance.this.availability_zone}"
 }
+
+output "password" {
+  description = "The password for the DB"
+  value       = "${local.password}"
+}

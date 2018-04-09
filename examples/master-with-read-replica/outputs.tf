@@ -33,6 +33,11 @@ output "master_availability_zone" {
   value       = "${module.txtbook_postgres_1.availability_zone}"
 }
 
+output "master_password" {
+  description = "The password for the master DB"
+  value       = "${module.txtbook_postgres_1.password}"
+}
+
 output "read_replica_address" {
   description = "The address of the RDS instance"
   value       = "${module.txtbook_postgres_2.address}"
