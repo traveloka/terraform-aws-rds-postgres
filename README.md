@@ -80,7 +80,7 @@ Usage
 
 ```hcl
 module "postgres" {
-  source  = "github.com/traveloka/terraform-aws-rds-postgres?ref=0.1.0"
+  source  = "github.com/traveloka/terraform-aws-rds-postgres?ref=v0.2.0"
 
   product_domain = "txt"
   service_name   = "txtinv"
