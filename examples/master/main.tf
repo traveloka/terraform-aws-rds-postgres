@@ -28,13 +28,13 @@ module "txtbook_postgres" {
   environment    = "production"
   description    = "Postgres to store Tesla Extranet booking data"
 
-  instance_class = "db.t2.small"
-  engine_version = "9.6.6"
+  instance_class    = "db.t2.small"
+  engine_version    = "9.6.6"
   allocated_storage = 20
 
   # Change to valid security group id
   vpc_security_group_ids = [
-    "sg-50036436"
+    "sg-50036436",
   ]
 
   # Change to valid db subnet group nam

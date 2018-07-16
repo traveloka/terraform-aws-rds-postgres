@@ -8,6 +8,12 @@ variable "service_name" {
   description = "The name of the service this RDS belongs to, this will be part of the database identifier"
 }
 
+variable "db_prefix" {
+  type        = "string"
+  description = "custom db identifier if the name not same as service_name"
+  default     = ""
+}
+
 variable "environment" {
   type        = "string"
   description = "The environment this RDS belongs to"
