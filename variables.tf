@@ -151,6 +151,12 @@ variable "copy_tags_to_snapshot" {
   default     = true
 }
 
+variable "snapshot_identifier" {
+  type        = "string"
+  description = "The snapshot ID used to restore the DB instance"
+  default     = ""
+}
+
 variable "monitoring_interval" {
   type        = "string"
   description = "The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance"

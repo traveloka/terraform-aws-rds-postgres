@@ -12,7 +12,7 @@ locals {
   # Change default values for read replica instance
   is_read_replica         = "${var.replicate_source_db == "" ? false : true}"
   username                = "${local.is_read_replica ? "" : var.username}"
-  password                = "${local.is_read_replica ? "" : random_id.password.hex}"
+  password                = "${local.is_read_replica ? "" : (var.snapshot_identifier == "" ? random_id.password.hex : "")}"
   multi_az                = "${local.is_read_replica ? false : var.multi_az}"
   backup_retention_period = "${local.is_read_replica ? 0 : var.backup_retention_period}"
   skip_final_snapshot     = "${local.is_read_replica ? true : var.skip_final_snapshot}"
@@ -30,10 +30,11 @@ resource "random_id" "password" {
 }
 
 resource "aws_db_instance" "this" {
-  # Ignore changes on password as it is expected to be changed outside of Terraform  
+  # Ignore changes on password as it is expected to be changed outside of Terraform
   lifecycle {
     ignore_changes = [
       "password",
+      "snapshot_identifier",
     ]
   }
 
@@ -73,6 +74,7 @@ resource "aws_db_instance" "this" {
   skip_final_snapshot       = "${local.skip_final_snapshot}"
   final_snapshot_identifier = "${local.final_snapshot_identifier}"
   copy_tags_to_snapshot     = "${local.copy_tags_to_snapshot}"
+  snapshot_identifier       = "${var.snapshot_identifier}"
 
   monitoring_interval = "${var.monitoring_interval}"
   monitoring_role_arn = "${var.monitoring_role_arn}"
