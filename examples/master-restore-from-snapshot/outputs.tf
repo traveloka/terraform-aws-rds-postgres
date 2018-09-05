@@ -32,8 +32,3 @@ output "availability_zone" {
   description = "The availability zone of the instance"
   value       = "${module.rds_postgres.availability_zone}"
 }
-
-output "password" {
-  description = "The password for the DB"
-  value       = "${module.rds_postgres.password}"
-}
