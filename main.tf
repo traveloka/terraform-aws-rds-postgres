@@ -31,6 +31,7 @@ resource "random_id" "password" {
 
 resource "aws_db_instance" "this" {
   # Ignore changes on password as it is expected to be changed outside of Terraform
+  # Ignore changes on snapshot_identifier as it is expected to use this one time only when restoring from snapshot
   lifecycle {
     ignore_changes = [
       "password",
