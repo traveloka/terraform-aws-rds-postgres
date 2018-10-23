@@ -44,7 +44,7 @@ variable "username" {
 variable "port" {
   type        = "string"
   description = "The port on which the DB accepts connections"
-  default     = 5432
+  default     = "5432"
 }
 
 variable "allocated_storage" {
@@ -61,13 +61,13 @@ variable "storage_type" {
 variable "iops" {
   type        = "string"
   description = "The amount of provisioned IOPS. Setting this implies a storage_type of io1"
-  default     = 0
+  default     = "0"
 }
 
 variable "storage_encrypted" {
   type        = "string"
   description = "Specifies whether the DB instance is encrypted"
-  default     = true
+  default     = "true"
 }
 
 variable "kms_key_id" {
@@ -101,25 +101,25 @@ variable "availability_zone" {
 variable "multi_az" {
   type        = "string"
   description = "Specifies if the RDS instance is multi-AZ"
-  default     = true
+  default     = "true"
 }
 
 variable "allow_major_version_upgrade" {
   type        = "string"
   description = "Indicates that major version upgrades are allowed"
-  default     = false
+  default     = "false"
 }
 
 variable "auto_minor_version_upgrade" {
   type        = "string"
   description = "Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window"
-  default     = false
+  default     = "false"
 }
 
 variable "apply_immediately" {
   type        = "string"
   description = "Specifies whether any database modifications are applied immediately, or during the next maintenance window"
-  default     = false
+  default     = "false"
 }
 
 variable "maintenance_window" {
@@ -142,13 +142,13 @@ variable "backup_window" {
 variable "skip_final_snapshot" {
   type        = "string"
   description = "Determines whether a final DB snapshot is created before the DB instance is deleted"
-  default     = false
+  default     = "false"
 }
 
 variable "copy_tags_to_snapshot" {
   type        = "string"
   description = "On delete, copy all Instance tags to the final snapshot (if final_snapshot_identifier is specified)"
-  default     = true
+  default     = "true"
 }
 
 variable "snapshot_identifier" {
@@ -160,7 +160,7 @@ variable "snapshot_identifier" {
 variable "monitoring_interval" {
   type        = "string"
   description = "The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance"
-  default     = 60
+  default     = "60"
 }
 
 variable "monitoring_role_arn" {

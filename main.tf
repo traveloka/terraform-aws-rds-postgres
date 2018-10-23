@@ -13,7 +13,7 @@ locals {
   is_read_replica         = "${var.replicate_source_db == "" ? false : true}"
   username                = "${local.is_read_replica ? "" : var.username}"
   password                = "${local.is_read_replica ? "" : (var.snapshot_identifier == "" ? random_id.password.hex : "")}"
-  multi_az                = "${local.is_read_replica ? false : var.multi_az}"
+  multi_az                = "${var.multi_az}"
   backup_retention_period = "${local.is_read_replica ? 0 : var.backup_retention_period}"
   skip_final_snapshot     = "${local.is_read_replica ? true : var.skip_final_snapshot}"
   copy_tags_to_snapshot   = "${local.is_read_replica ? false : var.copy_tags_to_snapshot}"
