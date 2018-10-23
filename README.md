@@ -33,9 +33,6 @@ These parameters will be inherited from the master's in the first creation stage
 To apply different values for the parameters above, you have to re-apply the configuration after the first creation is finished.
 
 Some default values are changed for read replica instance:
-- `multi_az = false`
-  Postgres read replica cannot be in multi AZ.
-
 - `backup_retention_period = 0`
   Postgres read replica does not support automated backup.
 
@@ -54,26 +51,23 @@ These steps need to be done in sequence:
 2. Add parameter `backup_retention_period = 0`
    We need to explicitly disable automated backup for now, otherwise Terraform will complain that a read replica does not support automated backup.
 
-3. Add parameter `multi_az = false`
-   We need to explicitly set multi AZ to false for now, otherwise Terraform will complain that a read replica instance cannot be in multi AZ.
-
 3. Apply the configuration and wait for db instance to be successfully promoted to master
 
 4. Remove parameter `availability_zone`
    We are using `multi_az` parameter for master instance.
 
-6. Modify parameter `multi_az`
+5. Modify parameter `multi_az`
    This is to enable multi AZ. Either set it explicitly or leave as default.
 
-7. Modify parameter `backup_retention_period`
+6. Modify parameter `backup_retention_period`
    This is to enable automated backup. Either set it explicitly or leave as default.
 
-8. Add parameter `backup_window`
+7. Add parameter `backup_window`
    Either set it explicitly or leave as default.
 
-9. Modify other parameters as you would to a master instance
+8. Modify other parameters as you would to a master instance
 
-10. Apply the configuration again
+9. Apply the configuration again
 
 Usage
 -----
