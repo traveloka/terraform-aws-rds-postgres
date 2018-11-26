@@ -70,7 +70,7 @@ variable "storage_encrypted" {
   default     = "true"
 }
 
-variable "kms_key_id" {
+variable "kms_key_arn" {
   type        = "string"
   description = "Specifies a custom KMS key to be used to encrypt"
   default     = ""
@@ -90,12 +90,6 @@ variable "db_subnet_group_name" {
 variable "parameter_group_name" {
   type        = "string"
   description = "Name of the DB parameter group to associate"
-}
-
-variable "availability_zone" {
-  type        = "string"
-  description = "The AZ for the RDS instance. It is recommended to only use this when creating a read replica instance"
-  default     = ""
 }
 
 variable "multi_az" {

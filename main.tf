@@ -55,7 +55,7 @@ resource "aws_db_instance" "this" {
   storage_type      = "${var.storage_type}"
   iops              = "${var.iops}"
   storage_encrypted = "${var.storage_encrypted}"
-  kms_key_id        = "${var.kms_key_id}"
+  kms_key_id        = "${var.kms_key_arn}"
 
   vpc_security_group_ids = ["${var.vpc_security_group_ids}"]
   multi_az               = "${local.multi_az}"

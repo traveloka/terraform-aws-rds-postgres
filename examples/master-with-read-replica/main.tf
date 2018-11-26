@@ -53,9 +53,6 @@ module "txtbook_postgres_2" {
   # Make sure that this is always identical to the master's
   allocated_storage = 20
 
-  # Set the read replica AZ to be the master's AZ
-  availability_zone = "${module.txtbook_postgres_1.availability_zone}"
-
   # Change to valid security group id
   vpc_security_group_ids = [
     "sg-cb8165ac",
