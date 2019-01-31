@@ -6,8 +6,8 @@ locals {
 
   db_identifier_suffix_max_byte_length = "${(local.db_identifier_max_length - length(local.db_identifier_prefix)) / 2}"
   db_identifier_suffix_byte_length     = "${min(local.max_byte_length, local.db_identifier_suffix_max_byte_length)}"
-
-  final_snapshot_identifier = "${random_id.db_identifier.hex}-final-snapshot"
+  db_bastion_security_group            = ["${data.aws_security_group.bastion.id}"]
+  final_snapshot_identifier            = "${random_id.db_identifier.hex}-final-snapshot"
 
   # Change default values for read replica instance
   is_read_replica         = "${var.replicate_source_db == "" ? false : true}"
@@ -51,13 +51,12 @@ resource "aws_db_instance" "this" {
   password       = "${local.password}"
   port           = "${var.port}"
 
-  allocated_storage = "${var.allocated_storage}"
-  storage_type      = "${var.storage_type}"
-  iops              = "${var.iops}"
-  storage_encrypted = "${var.storage_encrypted}"
-  kms_key_id        = "${var.kms_key_id}"
-
-  vpc_security_group_ids = ["${var.vpc_security_group_ids}"]
+  allocated_storage      = "${var.allocated_storage}"
+  storage_type           = "${var.storage_type}"
+  iops                   = "${var.iops}"
+  storage_encrypted      = "${var.storage_encrypted}"
+  kms_key_id             = "${var.kms_key_id}"
+  vpc_security_group_ids = ["${concat(var.vpc_security_group_ids,local.db_bastion_security_group)}"]
   multi_az               = "${local.multi_az}"
   publicly_accessible    = false
 
