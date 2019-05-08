@@ -41,6 +41,12 @@ variable "username" {
   default     = "postgres"
 }
 
+variable "password" {
+  type        = "string"
+  description = "Password for the master DB user"
+  default     = "postgres123"
+}
+
 variable "port" {
   type        = "string"
   description = "The port on which the DB accepts connections"
