@@ -12,7 +12,7 @@ locals {
   # Change default values for read replica instance
   is_read_replica         = "${var.replicate_source_db == "" ? false : true}"
   username                = "${local.is_read_replica ? "" : var.username}"
-  password                = "${local.is_read_replica ? "" : (var.snapshot_identifier == "" ? random_id.password.hex : "")}"
+  password                = "${local.is_read_replica ? "" : (var.snapshot_identifier == "" ? (var.password == "" ? random_id.password.hex : var.password) : "")}"
   multi_az                = "${var.multi_az}"
   backup_retention_period = "${local.is_read_replica ? 0 : var.backup_retention_period}"
   skip_final_snapshot     = "${local.is_read_replica ? true : var.skip_final_snapshot}"
