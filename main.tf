@@ -17,6 +17,8 @@ locals {
   backup_retention_period = "${local.is_read_replica ? 0 : var.backup_retention_period}"
   skip_final_snapshot     = "${local.is_read_replica ? true : var.skip_final_snapshot}"
   copy_tags_to_snapshot   = "${local.is_read_replica ? false : var.copy_tags_to_snapshot}"
+  
+  bastion_security_group_ids = "${var.bastion_security_group_id == "" ? [], [var.bastion_security_group_id]}"
 }
 
 resource "random_id" "db_identifier" {
@@ -59,7 +61,7 @@ resource "aws_db_instance" "this" {
 
   vpc_security_group_ids = [
     "${var.vpc_security_group_ids}",
-    "${var.bastion_security_group_id}",
+    "${local.bastion_security_group_ids}",
   ]
 
   multi_az            = "${local.multi_az}"

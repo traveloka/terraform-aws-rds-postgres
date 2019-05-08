@@ -84,6 +84,7 @@ variable "vpc_security_group_ids" {
 variable "bastion_security_group_id" {
   type        = "string"
   description = "bastion security groups to associate"
+  default     = ""
 }
 
 variable "db_subnet_group_name" {
