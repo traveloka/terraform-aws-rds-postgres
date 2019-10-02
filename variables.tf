@@ -174,6 +174,6 @@ variable "monitoring_role_arn" {
 }
 
 variable "deletion_protection" {
-  type        = "string"
-	default     = "false"
+  type    = "string"
+  default = "false"
 }
