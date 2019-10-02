@@ -172,3 +172,8 @@ variable "monitoring_role_arn" {
   type        = "string"
   description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs"
 }
+
+variable "deletion_protection" {
+  type        = "string"
+	default     = "false"
+}
