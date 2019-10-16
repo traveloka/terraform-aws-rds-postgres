@@ -84,6 +84,8 @@ resource "aws_db_instance" "this" {
   monitoring_interval = "${var.monitoring_interval}"
   monitoring_role_arn = "${var.monitoring_role_arn}"
 
+  performance_insights_enabled = "${var.performance_insights}"
+
   tags = {
     Name          = "${random_id.db_identifier.hex}"
     Service       = "${var.service_name}"

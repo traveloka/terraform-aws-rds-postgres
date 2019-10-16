@@ -168,6 +168,12 @@ variable "monitoring_interval" {
   default     = "60"
 }
 
+variable "performance_insights" {
+  type        = "string"
+  description = "The values which defines if the performance insights for this db will be enabled or not"
+  default     = "false"
+}
+
 variable "monitoring_role_arn" {
   type        = "string"
   description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs"
