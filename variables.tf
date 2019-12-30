@@ -168,7 +168,7 @@ variable "monitoring_interval" {
   default     = "60"
 }
 
-variable "performance_insights" {
+variable "performance_insights_enabled" {
   type        = "string"
   description = "The values which defines if the performance insights for this db will be enabled or not"
   default     = "false"
