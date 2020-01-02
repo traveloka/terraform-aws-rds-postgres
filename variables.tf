@@ -172,3 +172,8 @@ variable "monitoring_role_arn" {
   type        = "string"
   description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs"
 }
+
+variable "ca_cert_identifier" {
+  type        = "string"
+  description = "The certificate authority for the DB"
+}

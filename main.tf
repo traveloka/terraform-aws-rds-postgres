@@ -44,12 +44,13 @@ resource "aws_db_instance" "this" {
   # Indicates that this instance is a read replica
   replicate_source_db = "${var.replicate_source_db}"
 
-  engine         = "postgres"
-  engine_version = "${var.engine_version}"
-  instance_class = "${var.instance_class}"
-  username       = "${var.username}"
-  password       = "${local.password}"
-  port           = "${var.port}"
+  engine             = "postgres"
+  engine_version     = "${var.engine_version}"
+  instance_class     = "${var.instance_class}"
+  username           = "${var.username}"
+  password           = "${local.password}"
+  port               = "${var.port}"
+  ca_cert_identifier = "${var.ca_cert_identifier}"
 
   allocated_storage = "${var.allocated_storage}"
   storage_type      = "${var.storage_type}"
