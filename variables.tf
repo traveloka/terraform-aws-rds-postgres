@@ -175,5 +175,6 @@ variable "monitoring_role_arn" {
 
 variable "ca_cert_identifier" {
   type        = "string"
-  description = "The certificate authority for the DB"
+  description = "Specifies the identifier of the CA certificate for the DB instance"
+  default     = ""
 }

@@ -48,4 +48,6 @@ module "txtbook_postgres" {
 
   # Change to valid monitoring role arn
   monitoring_role_arn = "${module.rds_enhanced_monitoring.role_arn}"
+
+  ca_cert_identifier = "rds-ca-2019"
 }
