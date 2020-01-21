@@ -176,5 +176,5 @@ variable "monitoring_role_arn" {
 variable "ca_cert_identifier" {
   type        = "string"
   description = "Specifies the identifier of the CA certificate for the DB instance"
-  default     = ""
+  default     = "rds-ca-2019"
 }
