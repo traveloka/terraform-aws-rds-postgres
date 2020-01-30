@@ -179,6 +179,12 @@ variable "monitoring_role_arn" {
   description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs"
 }
 
+variable "deletion_protection" {
+  type        = "string"
+  description = "If the DB instance should have deletion protection enabled. The database can't be deleted when this value is set to true. The default is false"
+  default     = false
+}
+
 variable "ca_cert_identifier" {
   type        = "string"
   description = "Specifies the identifier of the CA certificate for the DB instance"
