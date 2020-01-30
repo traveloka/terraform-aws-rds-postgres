@@ -73,6 +73,7 @@ resource "aws_db_instance" "this" {
   auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
   apply_immediately           = "${var.apply_immediately}"
   maintenance_window          = "${var.maintenance_window}"
+  deletion_protection         = "${var.deletion_protection}"
 
   backup_retention_period = "${local.backup_retention_period}"
   backup_window           = "${var.backup_window}"
