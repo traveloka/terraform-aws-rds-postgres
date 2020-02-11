@@ -53,21 +53,18 @@ These steps need to be done in sequence:
 
 3. Apply the configuration and wait for db instance to be successfully promoted to master
 
-4. Remove parameter `availability_zone`
-   We are using `multi_az` parameter for master instance.
-
-5. Modify parameter `multi_az`
+4. Modify parameter `multi_az`
    This is to enable multi AZ. Either set it explicitly or leave as default.
 
-6. Modify parameter `backup_retention_period`
+5. Modify parameter `backup_retention_period`
    This is to enable automated backup. Either set it explicitly or leave as default.
 
-7. Add parameter `backup_window`
+6. Add parameter `backup_window`
    Either set it explicitly or leave as default.
 
-8. Modify other parameters as you would to a master instance
+7. Modify other parameters as you would to a master instance
 
-9. Apply the configuration again
+8. Apply the configuration again
 
 Usage
 -----

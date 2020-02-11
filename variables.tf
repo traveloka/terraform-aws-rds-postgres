@@ -97,12 +97,6 @@ variable "parameter_group_name" {
   description = "Name of the DB parameter group to associate"
 }
 
-variable "availability_zone" {
-  type        = "string"
-  description = "The AZ for the RDS instance. It is recommended to only use this when creating a read replica instance"
-  default     = ""
-}
-
 variable "multi_az" {
   type        = "string"
   description = "Specifies if the RDS instance is multi-AZ"
