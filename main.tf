@@ -17,6 +17,14 @@ locals {
   backup_retention_period = "${local.is_read_replica ? 0 : var.backup_retention_period}"
   skip_final_snapshot     = "${local.is_read_replica ? true : var.skip_final_snapshot}"
   copy_tags_to_snapshot   = "${local.is_read_replica ? false : var.copy_tags_to_snapshot}"
+  default_tags = {
+    Name = "${random_id.db_identifier.hex}"
+    Service = "${var.service_name}"
+    ProductDomain = "${var.product_domain}"
+    Environment = "${var.environment}"
+    Description = "${var.description}"
+    ManagedBy = "Terraform"
+  }
 }
 
 resource "random_id" "db_identifier" {
@@ -88,12 +96,5 @@ resource "aws_db_instance" "this" {
 
   performance_insights_enabled = "${var.performance_insights_enabled}"
 
-  tags = {
-    Name          = "${random_id.db_identifier.hex}"
-    Service       = "${var.service_name}"
-    ProductDomain = "${var.product_domain}"
-    Environment   = "${var.environment}"
-    Description   = "${var.description}"
-    ManagedBy     = "Terraform"
-  }
+  tags = "${merge(var.additional_tags, local.default_tags)}"
 }
