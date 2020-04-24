@@ -23,7 +23,7 @@ locals {
     ProductDomain = "${var.product_domain}"
     Environment = "${var.environment}"
     Description = "${var.description}"
-    ManagedBy = "Terraform"
+    ManagedBy = "terraform"
   }
 }
 
