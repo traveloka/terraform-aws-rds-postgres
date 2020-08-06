@@ -17,13 +17,14 @@ locals {
   backup_retention_period = "${local.is_read_replica ? 0 : var.backup_retention_period}"
   skip_final_snapshot     = "${local.is_read_replica ? true : var.skip_final_snapshot}"
   copy_tags_to_snapshot   = "${local.is_read_replica ? false : var.copy_tags_to_snapshot}"
+
   default_tags = {
-    Name = "${random_id.db_identifier.hex}"
-    Service = "${var.service_name}"
+    Name          = "${random_id.db_identifier.hex}"
+    Service       = "${var.service_name}"
     ProductDomain = "${var.product_domain}"
-    Environment = "${var.environment}"
-    Description = "${var.description}"
-    ManagedBy = "terraform"
+    Environment   = "${var.environment}"
+    Description   = "${var.description}"
+    ManagedBy     = "terraform"
   }
 }
 
