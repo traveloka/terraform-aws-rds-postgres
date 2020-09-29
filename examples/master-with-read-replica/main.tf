@@ -2,6 +2,13 @@ provider "aws" {
   region = "ap-southeast-1"
 }
 
+data "aws_vpc" "test_vpc" {
+  filter {
+    name   = "tag:ProductDomain"
+    values = ["tsi"]
+  }
+}
+
 module "txtbook_postgres_1" {
   source = "../../"
 
@@ -17,9 +24,11 @@ module "txtbook_postgres_1" {
   allocated_storage = 20
 
   # Change to valid security group id
+  # Change to valid security group id
   vpc_security_group_ids = [
-    "sg-50036436",
+    aws_security_group.dummy_sg.id
   ]
+  bastion_security_group_id = aws_security_group.bastion_sg.id
 
   # Change to valid db subnet group nam
   db_subnet_group_name = "tvlk-dev-rds-subnet-group"
@@ -46,7 +55,7 @@ module "txtbook_postgres_2" {
   description    = "Read replica of txtbook postgres for analytic purpose"
 
   # Indicates that this is a read replica
-  replicate_source_db = "${module.txtbook_postgres_1.id}"
+  replicate_source_db = module.txtbook_postgres_1.id
 
   instance_class = "db.t2.small"
 
@@ -54,13 +63,13 @@ module "txtbook_postgres_2" {
   allocated_storage = 20
 
   # Set the read replica AZ to be the master's AZ
-  availability_zone = "${module.txtbook_postgres_1.availability_zone}"
+  availability_zone = module.txtbook_postgres_1.availability_zone
 
   # Change to valid security group id
   vpc_security_group_ids = [
-    "sg-cb8165ac",
+    aws_security_group.dummy_sg.id
   ]
-
+  bastion_security_group_id = aws_security_group.bastion_sg.id
   # Change to valid parameter group name
   parameter_group_name = "acs-shared-postgres"
 
@@ -68,4 +77,32 @@ module "txtbook_postgres_2" {
 
   # Change to valid monitoring role arn
   monitoring_role_arn = "arn:aws:iam::517530806209:role/rds-monitoring-role"
+}
+
+resource "aws_security_group" "dummy_sg" {
+  name        = "tsidum-postgres"
+  description = "dummy security group for testing postgres modules"
+  vpc_id      = data.aws_vpc.test_vpc.id
+
+  tags = {
+    Name          = "tsitest-postgres"
+    Service       = "tsitest"
+    ProductDomain = "tsi"
+    Environment   = "testing"
+    description   = "dummy security group for testing postgres modules"
+  }
+}
+
+resource "aws_security_group" "bastion_sg" {
+  name        = "tsitest-bastion"
+  description = "dummy security group for testing postgres modules"
+  vpc_id      = data.aws_vpc.test_vpc.id
+
+  tags = {
+    Name          = "tsidum-postgres"
+    Service       = "tsitest"
+    ProductDomain = "tsi"
+    Environment   = "testing"
+    description   = "dummy bastion security group for testing postgres modules"
+  }
 }

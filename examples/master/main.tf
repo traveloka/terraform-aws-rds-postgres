@@ -3,22 +3,28 @@ provider "aws" {
 }
 
 # Create an IAM Role for RDS Enhanced Monitoring
+data "aws_vpc" "test_vpc" {
+  filter {
+    name   = "tag:ProductDomain"
+    values = ["tsi"]
+  }
+}
+
 data "aws_iam_policy" "rds_enhanced_monitoring" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
 }
 
 module "rds_enhanced_monitoring" {
-  source = "github.com/traveloka/terraform-aws-iam-role.git//modules/service?ref=master"
+  source = "git@github.com:traveloka/terraform-aws-iam-role.git//modules/service?ref=v2.0.2"
 
   role_identifier  = "RDS Enhanced Monitoring"
   role_description = "Provides access to Cloudwatch for RDS Enhanced Monitoring"
   aws_service      = "monitoring.rds.amazonaws.com"
+  product_domain   = "tsi"
+  environment      = "testing"
 }
 
-resource "aws_iam_role_policy_attachment" "rds_enhanced_monitoring" {
-  role       = "${module.rds_enhanced_monitoring.role_name}"
-  policy_arn = "${data.aws_iam_policy.rds_enhanced_monitoring.arn}"
-}
+
 
 module "txtbook_postgres" {
   source = "../../"
@@ -34,8 +40,10 @@ module "txtbook_postgres" {
 
   # Change to valid security group id
   vpc_security_group_ids = [
-    "sg-50036436",
+    aws_security_group.dummy_sg.id
   ]
+
+  bastion_security_group_id = aws_security_group.bastion_sg.id
 
   # Change to valid db subnet group nam
   db_subnet_group_name = "tvlk-dev-rds-subnet-group"
@@ -47,7 +55,35 @@ module "txtbook_postgres" {
   backup_window      = "21:00-23:00"
 
   # Change to valid monitoring role arn
-  monitoring_role_arn = "${module.rds_enhanced_monitoring.role_arn}"
-
-  ca_cert_identifier = "rds-ca-2019"
+  monitoring_role_arn = "arn:aws:iam::460124681500:role/service-role/monitoring.rds.amazonaws.com/ServiceRoleForMonitoring_rds-enhanced-monitoring-af5e65a9bb3a52"
+  ca_cert_identifier  = "rds-ca-2019"
 }
+
+resource "aws_security_group" "dummy_sg" {
+  name        = "tsidum-postgres"
+  description = "dummy security group for testing postgres modules"
+  vpc_id      = data.aws_vpc.test_vpc.id
+
+  tags = {
+    Name          = "tsitest-postgres"
+    Service       = "tsitest"
+    ProductDomain = "tsi"
+    Environment   = "testing"
+    description   = "dummy security group for testing postgres modules"
+  }
+}
+
+resource "aws_security_group" "bastion_sg" {
+  name        = "tsitest-bastion"
+  description = "dummy security group for testing postgres modules"
+  vpc_id      = data.aws_vpc.test_vpc.id
+
+  tags = {
+    Name          = "tsidum-postgres"
+    Service       = "tsitest"
+    ProductDomain = "tsi"
+    Environment   = "testing"
+    description   = "dummy bastion security group for testing postgres modules"
+  }
+}
+
