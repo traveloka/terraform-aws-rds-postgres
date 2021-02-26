@@ -52,6 +52,12 @@ variable "allocated_storage" {
   description = "The allocated storage in gigabytes. For read replica, set the same value as master's"
 }
 
+variable "max_allocated_storage" {
+  type        = string
+  description = "The upper limit to which Amazon RDS can automatically scale the storage of the DB instance. Set this value to be greater than or equal to allocated_storage or 0 to disable Storage Autoscaling."
+  default     = "0"
+}
+
 variable "storage_type" {
   type        = string
   description = "One of standard (magnetic), gp2 (general purpose SSD), or io1 (provisioned IOPS SSD)"

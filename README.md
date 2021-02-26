@@ -161,6 +161,7 @@ No requirements.
 | iops | The amount of provisioned IOPS. Setting this implies a storage\_type of io1 | `string` | `"0"` | no |
 | kms\_key\_id | Specifies a custom KMS key to be used to encrypt | `string` | `""` | no |
 | maintenance\_window | The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi' | `string` | n/a | yes |
+| max_allocated\_storage | The upper limit to which Amazon RDS can automatically scale the storage of the DB instance. Set this value to be greater than or equal to allocated_storage or 0 to disable Storage Autoscaling. | `string` | `"0"` | no |
 | monitoring\_interval | The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance | `string` | `"60"` | no |
 | monitoring\_role\_arn | The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs | `string` | n/a | yes |
 | multi\_az | Specifies if the RDS instance is multi-AZ | `string` | `"true"` | no |

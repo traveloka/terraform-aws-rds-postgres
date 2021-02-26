@@ -64,11 +64,12 @@ resource "aws_db_instance" "this" {
   port               = var.port
   ca_cert_identifier = var.ca_cert_identifier
 
-  allocated_storage = var.allocated_storage
-  storage_type      = var.storage_type
-  iops              = var.iops
-  storage_encrypted = var.storage_encrypted
-  kms_key_id        = var.kms_key_id
+  allocated_storage     = var.allocated_storage
+  max_allocated_storage = var.max_allocated_storage
+  storage_type          = var.storage_type
+  iops                  = var.iops
+  storage_encrypted     = var.storage_encrypted
+  kms_key_id            = var.kms_key_id
 
   vpc_security_group_ids = flatten([
     var.vpc_security_group_ids,
