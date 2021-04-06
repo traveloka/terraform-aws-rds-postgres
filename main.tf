@@ -81,6 +81,7 @@ resource "aws_db_instance" "this" {
 
   db_subnet_group_name = var.db_subnet_group_name
   parameter_group_name = var.parameter_group_name
+  option_group_name    = var.option_group_name
 
   allow_major_version_upgrade = var.allow_major_version_upgrade
   auto_minor_version_upgrade  = var.auto_minor_version_upgrade
