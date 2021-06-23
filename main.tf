@@ -101,6 +101,8 @@ resource "aws_db_instance" "this" {
 
   performance_insights_enabled = var.performance_insights_enabled
 
+  enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
+
   tags = merge(var.additional_tags, local.default_tags)
 }
 

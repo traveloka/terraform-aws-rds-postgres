@@ -203,3 +203,8 @@ variable "additional_tags" {
   description = "The additional aws_db_instance tags that will be merged over the default tags"
 }
 
+variable "enabled_cloudwatch_logs_exports" {
+  type        = list(string)
+  default     = []
+  description = "List of log types to enable for exporting to CloudWatch logs"
+}

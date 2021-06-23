@@ -177,6 +177,7 @@ No requirements.
 | storage\_type | One of standard (magnetic), gp2 (general purpose SSD), or io1 (provisioned IOPS SSD) | `string` | `"gp2"` | no |
 | username | Username for the master DB user | `string` | `"postgres"` | no |
 | vpc\_security\_group\_ids | List of VPC security groups to associate | `list` | n/a | yes |
+| enabled\_cloudwatch\_logs\_exports | List of log types to enable for exporting to CloudWatch logs | `list` | `[]` | no |
 
 ## Outputs
 
